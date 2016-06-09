@@ -2,6 +2,7 @@ package change;
 
 import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.*;
@@ -9,8 +10,8 @@ import java.util.*;
 @RestController
 public class DenomsController {
 
-    @RequestMapping("/change")
-    public ArrayList<String> denoms(@RequestParam Map<String,String> requestParams) {
+    @RequestMapping(value="/change", method = RequestMethod.GET)
+    public ArrayList denoms(@RequestParam Map<String,String> requestParams) {
 
         /*
 
@@ -19,12 +20,34 @@ public class DenomsController {
         // String name=requestParams.get("denoms");
 
         */
+        Map coinOne = new HashMap();
+        Map coinTwo = new HashMap();
+        Map coinThree = new HashMap();
+        Map coinFour = new HashMap();
+        coinFour.put("name", "quater");
+        coinFour.put("amount", 25.0);
+        coinThree.put("name", "dime");
+        coinThree.put("amount", 10.0);
+        coinTwo.put("name", "nickle");
+        coinTwo.put("amount", 5.0);
+        coinOne.put("name", "penny");
+        coinOne.put("amount", 1.0);
+
+        ArrayList<Map> denominations = new ArrayList<Map>();
+        denominations.add(coinOne);
+        denominations.add(coinTwo);
+        denominations.add(coinThree);
+        denominations.add(coinFour);
 
         ArrayList<String> emptyList = new ArrayList<String>();
-        int[] denominations = {1,10,5,25};
         Denoms myDenom = new Denoms(emptyList);
-        int[] vals = new int[4];
+        ArrayList<Integer> vals = new ArrayList<Integer>(denominations.size());
 
-        return myDenom.printAll(0, denominations, 100, vals, emptyList);
+        return myDenom.printAll(0, denominations, 100.0, vals, emptyList);
+    }
+
+    @RequestMapping(value="/post", method = RequestMethod.POST)
+    public Map postMethod(@RequestParam Map<String, String> params) {
+       return params;
     }
 }
